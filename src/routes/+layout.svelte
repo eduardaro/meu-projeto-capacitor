@@ -15,7 +15,7 @@
 </div>
 
 <footer class="navbar bg-body-tertiary fixed-bottom">
-  <div class="container-fluid">Made with SvelteKit, CapacitorJS, Drizzle, Sql.js and Bootstrap</div>
+  <div class="container-fluid"><i class="bi bi-egg-fried"></i></div>
 </footer>
 
 <SideBar />

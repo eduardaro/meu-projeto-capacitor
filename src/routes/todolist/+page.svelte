@@ -13,8 +13,10 @@
   let tarefaEditando = $state();
   let tarefaExcluindo;
   let mensagemToast;
+  let filtro = $state('todas'); // Estado para controlar a exibição
 
-  async function adicionarTarefa() {
+  async function adicionarTarefa(event) {
+    event.preventDefault(); // Evita recarregar a página
     novaTarefa = novaTarefa.trim();
     if (!novaTarefa) {
       mensagemToast.show();
@@ -62,6 +64,18 @@
     });
   }
 
+  function reabrirTodasAsConcluidas() {
+    tarefas.forEach(tarefa => {
+      if (tarefa.status === 1) {
+        tarefa.status = 0;
+      }
+    });
+  }
+
+  function setFiltro(novoFiltro) {
+    filtro = novoFiltro;
+  }
+
   onMount(() => {
     mensagemToast = new bootstrap.Toast('#mensagemToast');
   });
@@ -78,36 +92,53 @@
 </div>
 
 <div class="container-fluid mt-5 pt-3">
-  <div class="d-flex justify-content-between align-items-center mb-2 px-2">
-    <h5 class="mb-0">Pendentes</h5>
-    <button class="btn btn-sm btn-success" click={concluirTodasAsPendentes}>
-      Marcar todas como concluídas
-    </button>
+  <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+    <h5 class="mb-0">Filtrar tarefas</h5>
+    <div class="btn-group">
+      <button class="btn btn-sm btn-secondary" onclick={() => setFiltro('todas')}>Todas</button>
+      <button class="btn btn-sm btn-primary" onclick={() => setFiltro('pendentes')}>Pendentes</button>
+      <button class="btn btn-sm btn-success" onclick={() => setFiltro('concluidas')}>Concluídas</button>
+    </div>
   </div>
 
-  <ToDoList
-    tarefas={tarefasPendentes}
-    {tarefaEditando}
-    bind:conteudoTarefaEditando
-    {editarTarefa}
-    {confirmarEdicao}
-    {cancelarEdicao}
-    {alterarStatus}
-    {excluirTarefa}
-  />
+  {#if filtro === 'todas' || filtro === 'pendentes'}
+    <div class="d-flex justify-content-between align-items-center mb-2 px-2">
+      <h5 class="mb-0">Pendentes</h5>
+      <button class="btn btn-sm btn-success" onclick={concluirTodasAsPendentes}>
+        Marcar todas como concluídas
+      </button>
+    </div>
+    <ToDoList
+      tarefas={tarefasPendentes}
+      {tarefaEditando}
+      bind:conteudoTarefaEditando
+      {editarTarefa}
+      {confirmarEdicao}
+      {cancelarEdicao}
+      {alterarStatus}
+      {excluirTarefa}
+    />
+  {/if}
 
-  <hr />
-
-  <ToDoList
-    tarefas={tarefasConcluidas}
-    {tarefaEditando}
-    bind:conteudoTarefaEditando
-    {editarTarefa}
-    {confirmarEdicao}
-    {cancelarEdicao}
-    {alterarStatus}
-    {excluirTarefa}
-  />
+  {#if filtro === 'todas' || filtro === 'concluidas'}
+    <hr />
+    <div class="d-flex justify-content-between align-items-center mb-2 px-2">
+      <h5 class="mb-0">Concluídas</h5>
+      <button class="btn btn-sm btn-danger" onclick={reabrirTodasAsConcluidas}>
+        Marcar todas como pendentes
+      </button>
+    </div>
+    <ToDoList
+      tarefas={tarefasConcluidas}
+      {tarefaEditando}
+      bind:conteudoTarefaEditando
+      {editarTarefa}
+      {confirmarEdicao}
+      {cancelarEdicao}
+      {alterarStatus}
+      {excluirTarefa}
+    />
+  {/if}
 </div>
 
 <Modal msg={'Deseja excluir a tarefa?'} acao={confirmarExclusao} />
