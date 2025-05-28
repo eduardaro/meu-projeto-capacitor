@@ -7,16 +7,35 @@
 
   let novaTarefa = $state('');
   let tarefas = $state([]);
-  let tarefasPendentes = $derived(tarefas.filter(tarefa => tarefa.status == 0));
-  let tarefasConcluidas = $derived(tarefas.filter(tarefa => tarefa.status == 1));
+  let busca = $state('');
+  let filtro = $state('todas');
+
+  let tarefasPendentes = $derived(
+    tarefas.filter(tarefa =>
+      tarefa.status === 0 &&
+      tarefa.conteudo.toLowerCase().includes(busca.toLowerCase())
+    )
+  );
+
+  let tarefasConcluidas = $derived(
+    tarefas.filter(tarefa =>
+      tarefa.status === 1 &&
+      tarefa.conteudo.toLowerCase().includes(busca.toLowerCase())
+    )
+  );
+
+  // Contadores
+  let totalTarefas = $derived(tarefas.length);
+  let totalPendentes = $derived(tarefas.filter(t => t.status === 0).length);
+  let totalConcluidas = $derived(tarefas.filter(t => t.status === 1).length);
+
   let conteudoTarefaEditando = $state('');
   let tarefaEditando = $state();
   let tarefaExcluindo;
   let mensagemToast;
-  let filtro = $state('todas'); // Estado para controlar a exibição
 
   async function adicionarTarefa(event) {
-    event.preventDefault(); // Evita recarregar a página
+    event.preventDefault();
     novaTarefa = novaTarefa.trim();
     if (!novaTarefa) {
       mensagemToast.show();
@@ -32,9 +51,7 @@
   }
 
   function confirmarEdicao() {
-    if (!conteudoTarefaEditando.trim()) {
-      return;
-    }
+    if (!conteudoTarefaEditando.trim()) return;
     tarefaEditando.conteudo = conteudoTarefaEditando;
     tarefaEditando = undefined;
   }
@@ -92,14 +109,43 @@
 </div>
 
 <div class="container-fluid mt-5 pt-3">
+  <!-- Campo de busca -->
+  <div class="px-4 mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Buscar tarefa..."
+      bind:value={busca}
+    />
+  </div>
+
+  <!-- Example single danger button -->
+<div class="btn-group">
+  <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="width: 1000px;">
+    Danger
+  </button>
+  <ul class="dropdown-menu">
+  <!-- Contadores com fundo roxo -->
+  <div class="px-4 mb-3">
+    <div class="p-3 rounded text-white" style="background-color: #6f42c1;">
+      Total: <strong>{totalTarefas}</strong> |
+      Pendentes: <strong>{totalPendentes}</strong> |
+      Concluídas: <strong>{totalConcluidas}</strong>
+    </div>
+  </div>
   <div class="d-flex justify-content-between align-items-center mb-3 px-2">
     <h5 class="mb-0">Filtrar tarefas</h5>
     <div class="btn-group">
       <button class="btn btn-sm btn-secondary" onclick={() => setFiltro('todas')}>Todas</button>
       <button class="btn btn-sm btn-primary" onclick={() => setFiltro('pendentes')}>Pendentes</button>
       <button class="btn btn-sm btn-success" onclick={() => setFiltro('concluidas')}>Concluídas</button>
+      
     </div>
   </div>
+  </ul>
+</div>
+
+
 
   {#if filtro === 'todas' || filtro === 'pendentes'}
     <div class="d-flex justify-content-between align-items-center mb-2 px-2">
@@ -141,4 +187,4 @@
   {/if}
 </div>
 
-<Modal msg={'Deseja excluir a tarefa?'} acao={confirmarExclusao} />
+<Modal msg={'Deseja excluir a tarefa?'} acao={confirmarExclusao} /> 
