@@ -24,7 +24,6 @@
     )
   );
 
-  // Contadores
   let totalTarefas = $derived(tarefas.length);
   let totalPendentes = $derived(tarefas.filter(t => t.status === 0).length);
   let totalConcluidas = $derived(tarefas.filter(t => t.status === 1).length);
@@ -119,33 +118,32 @@
     />
   </div>
 
-  <!-- Example single danger button -->
-<div class="btn-group">
-  <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="width: 1000px;">
-    Danger
-  </button>
-  <ul class="dropdown-menu">
-  <!-- Contadores com fundo roxo -->
-  <div class="px-4 mb-3">
-    <div class="p-3 rounded text-white" style="background-color: #6f42c1;">
-      Total: <strong>{totalTarefas}</strong> |
-      Pendentes: <strong>{totalPendentes}</strong> |
-      Concluídas: <strong>{totalConcluidas}</strong>
-    </div>
-  </div>
-  <div class="d-flex justify-content-between align-items-center mb-3 px-2">
-    <h5 class="mb-0">Filtrar tarefas</h5>
+  <!-- Botão Informações centralizado -->
+  <div class="d-flex justify-content-center mb-3">
     <div class="btn-group">
-      <button class="btn btn-sm btn-secondary" onclick={() => setFiltro('todas')}>Todas</button>
-      <button class="btn btn-sm btn-primary" onclick={() => setFiltro('pendentes')}>Pendentes</button>
-      <button class="btn btn-sm btn-success" onclick={() => setFiltro('concluidas')}>Concluídas</button>
-      
+      <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="width: 1000px;">
+        Informações
+      </button>
+      <ul class="dropdown-menu">
+        <!-- Contadores com fundo roxo -->
+        <div class="px-4 mb-3">
+          <div class="p-3 rounded text-white" style="background-color: #6f42c1;">
+            Total: <strong>{totalTarefas}</strong> |
+            Pendentes: <strong>{totalPendentes}</strong> |
+            Concluídas: <strong>{totalConcluidas}</strong>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+          <h5 class="mb-0">Filtrar tarefas</h5>
+          <div class="btn-group">
+            <button class="btn btn-sm btn-secondary" onclick={() => setFiltro('todas')}>Todas</button>
+            <button class="btn btn-sm btn-primary" onclick={() => setFiltro('pendentes')}>Pendentes</button>
+            <button class="btn btn-sm btn-success" onclick={() => setFiltro('concluidas')}>Concluídas</button>
+          </div>
+        </div>
+      </ul>
     </div>
   </div>
-  </ul>
-</div>
-
-
 
   {#if filtro === 'todas' || filtro === 'pendentes'}
     <div class="d-flex justify-content-between align-items-center mb-2 px-2">
@@ -187,4 +185,4 @@
   {/if}
 </div>
 
-<Modal msg={'Deseja excluir a tarefa?'} acao={confirmarExclusao} /> 
+<Modal msg={'Deseja excluir a tarefa?'} acao={confirmarExclusao} />
