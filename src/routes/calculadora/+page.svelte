@@ -27,6 +27,13 @@
         display = display.length > 1 ? display.slice(0, -1) : '';
     }
 
+    function round() {
+    
+    const val = eval(display);
+    display = Math.round(val);
+
+    }
+
     function sqrt() {
         display += '√(';
     }
@@ -57,21 +64,22 @@
         <td><button type="button" class="btn btn-dark w-100" onclick={() => press('(')}>&lpar;</button></td>
         <td><button type="button" class="btn btn-dark w-100" onclick={() => press(')')}>&rpar;</button></td>
         <td><button type="button" class="btn btn-info w-100" onclick={() => press('/')}>/</button></td>
+        <td><button class="btn btn-outline-dark w-100" onclick={round}>arr</button></td>
     </tr>
 
     <tr>
-        <td><button class="btn btn-primary w-100" onclick={() => sqrt()}>√</button></td>
-        <td><button class="btn btn-primary w-100" onclick={() => square()}>x²</button></td>
-        <td><button class="btn btn-primary w-100" onclick={() => log10()}>log</button></td>
-        <td><button class="btn btn-primary w-100" onclick={() => percent()}>%</button></td>
+        <td><button class="btn btn-info w-100" onclick={() => sqrt()}>√</button></td>
+        <td><button class="btn btn-info w-100" onclick={() => square()}>x²</button></td>
+        <td><button class="btn btn-info w-100" onclick={() => log10()}>log</button></td>
+        <td><button class="btn btn-info w-100" onclick={() => percent()}>%</button></td>
 
     </tr>
 
     <tr>
-    <td><button class="btn btn-primary w-100" onclick={() => invert()}>±</button></td>
-    <td><button class="btn btn-primary w-100" onclick={() => roundNumber()}>⭮</button></td> 
-    <td><button class="btn btn-primary w-100" onclick={() => modulo()}>mod</button></td>
-    <td><button class="btn btn-primary w-100" onclick={() => press('*')}>x</button></td>
+    <td><button class="btn btn-info w-100" onclick={() => invert()}>±</button></td>
+    <td><button class="btn btn-info w-100" onclick={() => roundNumber()}>⭮</button></td> 
+    <td><button class="btn btn-info w-100" onclick={() => modulo()}>mod</button></td>
+    <td><button class="btn btn-info w-100" onclick={() => press('*')}>x</button></td>
 </tr>
 
     <tr>
