@@ -6,17 +6,7 @@
     }
 
     function calc() {
-        try {
-            let expr = display
-                .replace(/√\(/g, 'Math.sqrt(')
-                .replace(/(\d+)%/g, '($1*0.01)')
-                .replace(/(\d+)\²/g, '($1**2)')
-                .replace(/log\(/g, 'Math.log10(')
-                .replace(/ mod /g, '%');
-            display = eval(expr);
-        } catch {
-            display = 'Erro';
-        }
+       display = eval(display)
     }
 
     function press(c) {
@@ -34,8 +24,14 @@
 
     }
 
+    function log10() {
+         const val = eval(display);
+         display = Math.log10(val);
+    }
+
     function sqrt() {
-        display += '√(';
+        const val = eval(display);
+        display = Math.sqrt(val);
     }
 
     function percent() {
@@ -43,15 +39,14 @@
     }
 
     function square() {
-        // aplica ao último número digitado
-        const match = display.match(/(\d+)(?!.*\d)/);
-        if (match) {
-            display = display.slice(0, match.index + match[0].length) + '²';
-        }
+        const val =eval(display);
+        display = val * val;
+
     }
 
-    function log10() {
-        display += 'log(';
+
+    function invert(){
+        display = eval(display) * -1;
     }
 </script>
 
@@ -64,20 +59,19 @@
         <td><button type="button" class="btn btn-dark w-100" onclick={() => press('(')}>&lpar;</button></td>
         <td><button type="button" class="btn btn-dark w-100" onclick={() => press(')')}>&rpar;</button></td>
         <td><button type="button" class="btn btn-info w-100" onclick={() => press('/')}>/</button></td>
-        <td><button class="btn btn-outline-dark w-100" onclick={round}>arr</button></td>
     </tr>
 
     <tr>
         <td><button class="btn btn-info w-100" onclick={() => sqrt()}>√</button></td>
         <td><button class="btn btn-info w-100" onclick={() => square()}>x²</button></td>
-        <td><button class="btn btn-info w-100" onclick={() => log10()}>log</button></td>
-        <td><button class="btn btn-info w-100" onclick={() => percent()}>%</button></td>
+        <td><button class="btn btn-info w-100" onclick={() => log10()}>log10</button></td>
+        <td><button class="btn btn-info w-100" onclick={() => press('%')}>%</button></td>
 
     </tr>
 
     <tr>
     <td><button class="btn btn-info w-100" onclick={() => invert()}>±</button></td>
-    <td><button class="btn btn-info w-100" onclick={() => roundNumber()}>⭮</button></td> 
+    <td><button class="btn btn-info w-100" onclick={round}>⭮</button></td>
     <td><button class="btn btn-info w-100" onclick={() => modulo()}>mod</button></td>
     <td><button class="btn btn-info w-100" onclick={() => press('*')}>x</button></td>
 </tr>
