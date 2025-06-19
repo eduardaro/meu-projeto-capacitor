@@ -11,14 +11,14 @@
 	}
 
 	function voltarLista() {
-		goto('/dicionario'); // volta para a lista de palavras
+		goto('/dicionario'); 
 	}
 </script>
 
 <style>
 	button.voltar {
 		display: block;
-		margin: 2rem auto; /* centraliza horizontalmente */
+		margin: 2rem auto; 
 		padding: 0.5rem 1.5rem;
 		font-size: 1rem;
 		cursor: pointer;
