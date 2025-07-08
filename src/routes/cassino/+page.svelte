@@ -32,4 +32,4 @@
 	<p>Este é um espaço feito com carinho, delicadeza e muita luz para você. Sinta-se abraçado (a) e aproveite cada momento por aqui!</p>
 </div>
 
-<button>MegaSorte</button>
+<button formaction="?/megasorte">MegaSorte</button><br>
